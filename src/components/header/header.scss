@@ -34,6 +34,24 @@
                 text-align: center;
             }
         }
+        &-logout{
+            background-color: red;
+            padding: 2px 10px;
+            border-radius: 15px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        &-profile{
+            background-color: #40ADFC;
+            padding: 2px 10px;
+            border-radius: 15px;
+            a{
+                color: #ffff;
+                text-decoration: none;
+                font-weight: 600;
+            }
+        }
         
         &-register{
             margin-right: 20px;

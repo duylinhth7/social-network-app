@@ -4,24 +4,31 @@ import { notification } from "antd"
 import "./login.scss";
 
 function Login() {
+    const nav = useNavigate();
     const [api, contextHolder] = notification.useNotification();
-    const openNotificationWithIcon =  (type, description) => {
+    const openNotificationWithIcon = (type, description) => {
         api[type]({
             message: 'Thông báo',
             description:
                 `${description}`,
         });
     };
-    const nav = useNavigate();
+        const handleLoginSuccess = (res) => {
+        const token = res.user.token;
+        const user = res.user;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        nav("/");
+        openNotificationWithIcon("success", "Đăng nhập thành công!")
+
+    }
     const handleSubmit = async (e) => {
         e.preventDefault()
         const email = e.target[0].value;
         const password = e.target[1].value
         const data = await loginServices(email, password);
         if (data.code == 200) {
-            openNotificationWithIcon("success", "Đăng nhập thành công!")
-            // localStorage.setItem("token", data.user.token);
-            // nav("/")
+            handleLoginSuccess(data);
         } else {
             openNotificationWithIcon("error", data.message)
         };
