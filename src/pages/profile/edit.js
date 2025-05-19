@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { editProfile, getInfoUser } from "../../services/userServices";
 import "../profile/edit.scss";
 import { notification } from "antd";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function Edit() {
     const nav = useNavigate();
@@ -28,8 +28,9 @@ function Edit() {
             reader.readAsDataURL(file);
         }
     };
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(null);
+    const user_id = JSON.parse(localStorage.getItem("user_id"));
+    const token = localStorage.getItem("token")
     const [data, setData] = useState(null);
     const [imagePreview, setAvatarPreview] = useState(null);
     const [fullName, setFullName] = useState("");
@@ -37,7 +38,8 @@ function Edit() {
     const [password, setPassword] = useState("");
 
     const fetchUser = async () => {
-        const res = await getInfoUser(user._id, token);
+        const res = await getInfoUser(user_id, token);
+        setUser(res.user)
         setData(res.user);
         setAvatarPreview(res.user.avatar);
         setFullName(res.user.fullName); // Khởi tạo state với dữ liệu ban đầu
@@ -76,8 +78,8 @@ function Edit() {
             dataUpdate.email = email;
         }
         if (Object.keys(dataUpdate).length > 0) {
-            const res = await editProfile(data._id, token, dataUpdate)
-            if(res.code == 200){
+            const res = await editProfile(user_id, token, dataUpdate)
+            if (res.code == 200) {
                 openNotificationWithIcon("success", res.message);
                 setTimeout(() => {
                     nav("/user/profile");

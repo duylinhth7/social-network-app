@@ -94,6 +94,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
     .profile-post-head {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -119,6 +120,13 @@
           font-size: 12px;
           color: #888;
         }
+      }
+      .profile-post-option{
+        position: absolute;
+        right: 0;
+        font-size: 25px;
+        cursor: pointer;
+        top: 0px;
       }
     }
 
@@ -188,5 +196,32 @@
             background-color: #0056b3;
         }
     }
+}
+.form-set-content{
+  textarea{
+    width: 100%;
+    border-radius: 5px;
+    border: 3px solid #ddd !important;
+  }
+}
+.form-set-images{
+  background-color: #0056b3;
+  text-align: center;
+  border-radius: 10px;
+  padding: 5px;
+  color: #fff;
+  font-weight: 600;
+}
+.form-set-submit{
+  text-align: right;
+  button{
+    border: 0;
+    margin-top: 10px;
+    padding: 8px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: 700;
+  }
 }
 

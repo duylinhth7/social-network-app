@@ -1,8 +1,28 @@
 import { notification } from "antd";
 import "../header/header.scss"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate, useParams } from "react-router-dom"
+import { useCallback, useEffect, useState } from "react";
+import { getInfoUser } from "../../services/userServices";
 
 function Header() {
+    const [user, setUser] = useState(null);
+    const user_id = JSON.parse(localStorage.getItem("user_id"));
+    const token = localStorage.getItem("token")
+    const fetchApi = useCallback(async () => {
+        try {
+            const res = await getInfoUser(user_id, token);
+            if (res.code === 200) {
+                setUser(res.user);
+            }
+        } catch (err) {
+            console.error("Lỗi khi lấy thông tin user:", err);
+        }
+    }, [user_id, token]);
+    useEffect(() => {
+        if (user_id && token) {
+            fetchApi();
+        }
+    }, [fetchApi]);
     const [api, contextHolder] = notification.useNotification();
     const openNotificationWithIcon = (type, description) => {
         api[type]({
@@ -12,16 +32,17 @@ function Header() {
         });
     };
     const nav = useNavigate();
-    const user = JSON.parse(localStorage.getItem("user"));
     const handleLogout = () => {
         localStorage.removeItem("user")
         localStorage.removeItem("token")
-        nav("/");
-        openNotificationWithIcon("success", "Đăng xuất thành công!")
-    }
+        openNotificationWithIcon("success", "Đăng xuất thành công!");
+        setTimeout(() => {
+            window.location.href = "/"; // reload lại toàn bộ app, header reset
+        }, 500);
+    };
     return (
         <>
-        {contextHolder}
+            {contextHolder}
             <div className='header'>
                 <div className='container'>
                     <div className='row'>
@@ -39,9 +60,9 @@ function Header() {
                                 <>
                                     <ul>
                                         <li className="header_menu-profile me-1">
-                                            <a href="/user/profile">
+                                            <NavLink to={`/user/profile/${user._id}`}>
                                                 {user.fullName}
-                                            </a>
+                                            </NavLink>
                                         </li>
                                         <li className='header_menu-logout'>
                                             <a onClick={() => handleLogout()}>Đăng xuất</a>
@@ -51,10 +72,10 @@ function Header() {
                                 <>
                                     <ul>
                                         <li className='header_menu-login'>
-                                            <a href="/user/login">Đăng nhập</a>
+                                            <NavLink to={"/user/login"}>Đăng nhập</NavLink>
                                         </li>
                                         <li className='header_menu-register'>
-                                            <a href="/user/register">Đăng ký</a>
+                                            <NavLink to={"/user/register"}>Đăng ký</NavLink>
                                         </li>
                                     </ul>
                                 </>}

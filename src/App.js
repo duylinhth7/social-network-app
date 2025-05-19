@@ -15,7 +15,7 @@ function App() {
           <Route path="user/login" element={<Login/>}/>
           <Route path='user/register' element={<Register/>} />
           <Route 
-            path='/user/profile'
+            path='/user/profile/:id'
             element={
             <PrivateRoute>
               <Profile />

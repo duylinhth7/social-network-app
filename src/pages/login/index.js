@@ -17,7 +17,7 @@ function Login() {
         const token = res.user.token;
         const user = res.user;
         localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user_id", JSON.stringify(user._id));
         nav("/");
         openNotificationWithIcon("success", "Đăng nhập thành công!")
 

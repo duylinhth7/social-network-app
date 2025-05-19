@@ -1,4 +1,5 @@
 const PATH = "https://social-network-be-nt32.onrender.com/api/v1/post";
+const token = localStorage.getItem("token")
 
 
 export const getPostUser = async (id, token) => {
@@ -39,3 +40,32 @@ export const unLikePost = async (id, token) => {
   const data = await response.json();
   return data;
 };
+
+export const newPost = async (record) => {
+  const formData = new FormData();
+  formData.append("content", record.content);
+  if(record.images){
+    formData.append("images", record.images);
+  }
+  const response = await fetch(PATH, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    body: formData
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+export const deletePost = async (postId) => {
+  const response = await fetch(PATH + `/delete/${postId}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+  const data = response.json();
+  return data;
+}
