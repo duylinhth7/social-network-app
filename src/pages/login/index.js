@@ -13,7 +13,7 @@ function Login() {
                 `${description}`,
         });
     };
-        const handleLoginSuccess = (res) => {
+    const handleLoginSuccess = (res) => {
         const token = res.user.token;
         const user = res.user;
         localStorage.setItem("token", token);
@@ -23,15 +23,19 @@ function Login() {
 
     }
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        const email = e.target[0].value;
-        const password = e.target[1].value
-        const data = await loginServices(email, password);
-        if (data.code == 200) {
-            handleLoginSuccess(data);
-        } else {
-            openNotificationWithIcon("error", data.message)
-        };
+        try {
+            e.preventDefault()
+            const email = e.target[0].value;
+            const password = e.target[1].value
+            const data = await loginServices(email, password);
+            if (data.code == 200) {
+                handleLoginSuccess(data);
+            } else {
+                openNotificationWithIcon("error", data.message)
+            };
+        } catch (error) {
+
+        }
     };
     return (<>
         {contextHolder}

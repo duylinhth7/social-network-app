@@ -11,6 +11,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<LayoutDefault/>}>
+          <Route path='/'/>
           <Route path="user/login" element={<Login/>}/>
           <Route path='user/register' element={<Register/>} />
           <Route 

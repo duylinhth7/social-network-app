@@ -5,9 +5,9 @@ function LayoutDefault(){
     return(
         <>
             <div className="layout">
-                <header>
+                <Header>
                     <Header/>
-                </header>
+                </Header>
                 <div className="main">
                     <Outlet />
                 </div>
