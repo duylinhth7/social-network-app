@@ -3,13 +3,16 @@ import "../profile/profile.scss"
 import dayjs from "dayjs";
 import { deletePost, getPostUser, likePost, newPost, unLikePost } from "../../services/postServices";
 import { getInfoUser } from "../../services/userServices";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { follow, unfollow } from "../../services/followServices";
 import { Button, Dropdown, Menu, Modal } from "antd";
+import { handleLikeHelper, handleUnLikeHelper } from "../../helpers/postHelper";
 import PostOptions from "../../helpers/postOptions";
+
 
 function Profile() {
     const [user, setUser] = useState(null);
+    const nav = useNavigate()
     const params = useParams();
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const token = localStorage.getItem("token")
@@ -32,14 +35,6 @@ function Profile() {
         fetchPost();
         fetchUser();
     }, [trigger]);
-    const handleUnLike = async (id) => {
-        const res = await unLikePost(id, token);
-        setTrigger(!trigger)
-    }
-    const handleLike = async (id) => {
-        const res = await likePost(id, token);
-        setTrigger(!trigger)
-    }
 
     //follow
     const handleFollow = async () => {
@@ -81,7 +76,7 @@ function Profile() {
     //option post
     const handleDeletePost = async (postId) => {
         const res = await deletePost(postId);
-        if(res.code == 200){
+        if (res.code == 200) {
             setTrigger(!trigger)
         }
     }
@@ -94,7 +89,6 @@ function Profile() {
     if (!user) {
         return <div>Vui lòng đăng nhập để xem trang cá nhân</div>;
     };
-
     return (
         <div className="profile">
             <div className="container">
@@ -145,7 +139,7 @@ function Profile() {
                                                     <div>{dayjs(item.createdAt).format("DD/MM/YYYY HH:mm")}</div>
                                                 </div>
                                                 {user._id == user_id ? (<>
-                                                    <div className="profile-post-option"><PostOptions postId={item._id}  onDeletePost = {handleDeletePost}/></div>
+                                                    <div className="profile-post-option"><PostOptions postId={item._id} onDeletePost={handleDeletePost} /></div>
                                                 </>) : (<></>)}
                                             </div>
                                             <div className="col-12 profile-post-content">
@@ -160,11 +154,12 @@ function Profile() {
                                             <div className="profile-post-button row">
                                                 <div className="col-4">
                                                     {item.likes.length > 0 ? (<>
-                                                        {item.likes.includes(user_id) ? (<button className="liked" onClick={() => handleUnLike(item._id)}>{item.likes.length} Thích</button>) : (<button onClick={() => handleLike(item._id)}>{item.likes.length} Thích</button>)}
-                                                    </>) : (<button onClick={() => handleLike(item._id)}>0 Thích</button>)}
+                                                        {item.likes.includes(user_id) ? (<button className="liked" onClick={() => {handleUnLikeHelper(item._id, trigger, setTrigger)}}>{item.likes.length} Thích</button>) :
+                                                            (<button onClick={() => {handleLikeHelper(item._id, trigger, setTrigger)}}>{item.likes.length} Thích</button>)}
+                                                    </>) : (<button onClick={() => {handleLikeHelper(item._id, trigger, setTrigger)}} >0 Thích</button>)}
                                                 </div>
                                                 <div className="col-4">
-                                                    <button>Bình luận</button>
+                                                    <button onClick={() => nav(`/post/${item._id}`)}>Bình luận</button>
                                                 </div>
                                                 <div className="col-4">
                                                     <button>Chia sẻ</button>

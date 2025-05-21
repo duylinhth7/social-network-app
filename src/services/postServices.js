@@ -15,7 +15,7 @@ export const getPostUser = async (id, token) => {
   return data;
 };
 
-export const likePost = async (id, token) => {
+export const likePost = async (id) => {
   const response = await fetch(PATH + `/like/${id}`, {
     method: "PATCH",
     headers: {
@@ -28,7 +28,7 @@ export const likePost = async (id, token) => {
   return data;
 };
 
-export const unLikePost = async (id, token) => {
+export const unLikePost = async (id) => {
   const response = await fetch(PATH + `/unlike/${id}`, {
     method: "PATCH",
     headers: {
@@ -44,7 +44,7 @@ export const unLikePost = async (id, token) => {
 export const newPost = async (record) => {
   const formData = new FormData();
   formData.append("content", record.content);
-  if(record.images){
+  if (record.images) {
     formData.append("images", record.images);
   }
   const response = await fetch(PATH, {
@@ -69,3 +69,39 @@ export const deletePost = async (postId) => {
   const data = response.json();
   return data;
 }
+
+export const getAllPost = async () => {
+  const response = await fetch(PATH, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+  const data = response.json();
+  return data;
+}
+
+export const getDetailPost = async (id) => {
+  const response = await fetch(PATH + `/detail/${id}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+  const data = response.json();
+  return data;
+}
+
+export const postComment = async (id, content) => {
+  const response = await fetch(PATH + `/comment/${id}`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+
+    },
+    body: JSON.stringify({ content })
+  });
+  const data = response.json();
+  return data;
+} 

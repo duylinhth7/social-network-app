@@ -6,23 +6,17 @@ import { getInfoUser } from "../../services/userServices";
 
 function Header() {
     const [user, setUser] = useState(null);
+    const [trigger, setTrigger] = useState(false);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
-    const token = localStorage.getItem("token")
-    const fetchApi = useCallback(async () => {
-        try {
-            const res = await getInfoUser(user_id, token);
-            if (res.code === 200) {
-                setUser(res.user);
-            }
-        } catch (err) {
-            console.error("Lỗi khi lấy thông tin user:", err);
+    const fetchApi = async () => {
+        const res = await getInfoUser(user_id);
+        if (res.code === 200) {
+            setUser(res.user);
         }
-    }, [user_id, token]);
-    useEffect(() => {
-        if (user_id && token) {
-            fetchApi();
-        }
-    }, [fetchApi]);
+    }
+        useEffect(() => {
+            fetchApi()
+        }, []);
     const [api, contextHolder] = notification.useNotification();
     const openNotificationWithIcon = (type, description) => {
         api[type]({
@@ -31,9 +25,8 @@ function Header() {
                 `${description}`,
         });
     };
-    const nav = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem("user")
+        localStorage.removeItem("user_id")
         localStorage.removeItem("token")
         openNotificationWithIcon("success", "Đăng xuất thành công!");
         setTimeout(() => {

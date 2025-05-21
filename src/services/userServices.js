@@ -1,4 +1,5 @@
 const PATH = "https://social-network-be-nt32.onrender.com/api/v1/user";
+const token = localStorage.getItem("token")
 
 export const loginServices = async (email, password) => {
   const response = await fetch(PATH + "/login", {
@@ -31,7 +32,7 @@ export const registerServices = async (record) => {
   return result;
 };
 
-export const getInfoUser = async (id, token) => {
+export const getInfoUser = async (id) => {
   const response = await fetch(PATH + `/detail/${id}`, {
     method: "GET",
     headers: {

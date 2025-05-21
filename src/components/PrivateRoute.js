@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { getInfoUser } from "../services/userServices";
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true); // trạng thái loading
     const user_id = JSON.parse(localStorage.getItem("user_id"));
@@ -25,10 +25,11 @@ const PrivateRoute = ({ children }) => {
     useEffect(() => {
         fetchApi();
     }, []);
+    // console.log(props)
 
     if (loading) return <div>Đang kiểm tra đăng nhập...</div>;
 
-    return user ? children : <Navigate to="/user/login" />;
+    return token ? <Outlet /> : <Navigate to="/user/login" />;
 };
 
 export default PrivateRoute;

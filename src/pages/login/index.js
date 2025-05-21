@@ -19,7 +19,9 @@ function Login() {
         localStorage.setItem("token", token);
         localStorage.setItem("user_id", JSON.stringify(user._id));
         nav("/");
-        openNotificationWithIcon("success", "Đăng nhập thành công!")
+        openNotificationWithIcon("success", "Đăng nhập thành công!");
+        window.location.reload()
+
 
     }
     const handleSubmit = async (e) => {

@@ -5,32 +5,26 @@ import Register from './pages/register';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/profile';
 import Edit from './pages/profile/edit';
+import Home from './pages/home';
+import PostDetail from './pages/postDetail';
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<LayoutDefault/>}>
-          <Route path='/'/>
-          <Route path="user/login" element={<Login/>}/>
-          <Route path='user/register' element={<Register/>} />
-          <Route 
-            path='/user/profile/:id'
-            element={
-            <PrivateRoute>
-              <Profile />
-            </PrivateRoute>}
-          /> 
-          <Route 
-            path='/user/profile/edit'
-            element={
-            <PrivateRoute>
-              <Edit />
-            </PrivateRoute>}
-          />  
+    <Routes>
+      <Route element={<LayoutDefault />}>
+        {/* Public routes */}
+        <Route path="user/login" element={<Login />} />
+        <Route path="user/register" element={<Register />} />
+
+        {/* Protected routes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="" element={<Home />} />
+          <Route path="user/profile/:id" element={<Profile />} />
+          <Route path="user/profile/edit" element={<Edit />} />
+          <Route  path='post/:id' element={<PostDetail />}/>
         </Route>
-      </Routes>
-    </>
+      </Route>
+    </Routes>
   );
 }
 
