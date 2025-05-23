@@ -45,7 +45,7 @@ export const getInfoUser = async (id) => {
   return data;
 };
 
-export const editProfile = async (id, token, dataUpdate) => {
+export const editProfile = async (id, dataUpdate) => {
   const response = await fetch(PATH + `/edit/${id}`, {
     method: "PATCH",
     headers: {

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getInfoUser } from "../../services/userServices";
 
 function Header() {
+    const nav = useNavigate()
     const [user, setUser] = useState(null);
     const [trigger, setTrigger] = useState(false);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
@@ -40,7 +41,7 @@ function Header() {
                 <div className='container'>
                     <div className='row'>
                         <div className='header_logo col-3'>
-                            <a>LOGO</a>
+                            <span onClick={()=> nav("/")}>LOGO</span>
                         </div>
                         <div className='header_search col-5'>
                             <form>

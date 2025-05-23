@@ -87,11 +87,11 @@
   padding: 20px;
 
   &-item {
-    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.1);
     border-radius: 12px;
     padding: 16px;
     background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
 
     .profile-post-head {
       cursor: pointer;

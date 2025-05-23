@@ -8,7 +8,7 @@ function LayoutDefault(){
                 <Header>
                     <Header/>
                 </Header>
-                <div className="main">
+                <div className="main" style={{background: "#f9f9f9"}}>
                     <Outlet />
                 </div>
                 <footer>

@@ -4,10 +4,10 @@ import { getInfoUser } from "../../services/userServices";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { handleLikeHelper, handleUnLikeHelper } from "../../helpers/postHelper";
+import PostHome from "../../components/postHome";
 
 function Home() {
     const nav = useNavigate();
-    const token = localStorage.getItem("token");
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const [data, setData] = useState();
     const [trigger, setTrigger] = useState(true);
@@ -26,6 +26,9 @@ function Home() {
         <>
             <div className="post_home">
                 <div className="container">
+                    <div className="mt-4">
+                        <PostHome trigger={trigger} setTrigger={setTrigger}/>
+                    </div>
                     <div className="row profile-post">
                         {
                             data ? (data.map((item, index) => (

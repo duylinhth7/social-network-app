@@ -78,7 +78,7 @@ function Edit() {
             dataUpdate.email = email;
         }
         if (Object.keys(dataUpdate).length > 0) {
-            const res = await editProfile(user_id, token, dataUpdate)
+            const res = await editProfile(user_id, dataUpdate)
             if (res.code == 200) {
                 openNotificationWithIcon("success", res.message);
                 setTimeout(() => {

@@ -183,7 +183,7 @@ function Profile() {
                     <form onSubmit={handleSubmit}>
                         <div className="form-set-content"><textarea placeholder=" Bạn đang nghĩ gì?" rows={5} name="content" required /></div>
                         <div>
-                            <div className="form-set-images" onClick={() => handleAvatarClick()}>Chọn  ảnh</div>
+                            <div className="form-set-images" onClick={() => handleAvatarClick()}>Chọn ảnh</div>
                             <input
                                 type="file"
                                 name="images"
