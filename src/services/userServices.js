@@ -58,3 +58,15 @@ export const editProfile = async (id, dataUpdate) => {
   const data = await response.json();
   return data;
 };
+
+export const searchServices = async (keyword) => {
+  const response = await fetch(PATH + `?keyword=${keyword}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+
+  const data = await response.json();
+  return data;
+}

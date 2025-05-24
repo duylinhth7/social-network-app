@@ -5,6 +5,8 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { handleLikeHelper, handleUnLikeHelper } from "../../helpers/postHelper";
 import PostHome from "../../components/postHome";
+import socket from "../../sockets/socket";
+import { message } from "antd";
 
 function Home() {
     const nav = useNavigate();
@@ -22,8 +24,15 @@ function Home() {
     useEffect(() => {
         fetchPost();
     }, [trigger]);
+    const handleClick = () => {
+        socket.emit("chat", {message: "ok"})
+        socket.on("returnchat", (data) => {
+            console.log(data)
+        })
+    }
     return (
         <>
+        <a onClick={handleClick}>jkn</a>
             <div className="post_home">
                 <div className="container">
                     <div className="mt-4">

@@ -3,6 +3,7 @@ import "../header/header.scss"
 import { NavLink, useNavigate, useParams } from "react-router-dom"
 import { useCallback, useEffect, useState } from "react";
 import { getInfoUser } from "../../services/userServices";
+import Search from "../search";
 
 function Header() {
     const nav = useNavigate()
@@ -44,10 +45,7 @@ function Header() {
                             <span onClick={()=> nav("/")}>LOGO</span>
                         </div>
                         <div className='header_search col-5'>
-                            <form>
-                                <input type="text" placeholder="Tìm kiếm..." required />
-                                <button type="submit">Tìm</button>
-                            </form>
+                            <Search />
                         </div>
                         <div className='header_menu col-4'>
                             {user ?

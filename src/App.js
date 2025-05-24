@@ -7,8 +7,19 @@ import Profile from './pages/profile';
 import Edit from './pages/profile/edit';
 import Home from './pages/home';
 import PostDetail from './pages/postDetail';
+import { useEffect } from 'react';
+import socket from './sockets/socket';
+import Chat from './pages/chat';
+
 
 function App() {
+  useEffect(() => {
+    socket.connect();
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
   return (
     <Routes>
       <Route element={<LayoutDefault />}>
@@ -21,7 +32,8 @@ function App() {
           <Route path="" element={<Home />} />
           <Route path="user/profile/:id" element={<Profile />} />
           <Route path="user/profile/edit" element={<Edit />} />
-          <Route  path='post/:id' element={<PostDetail />}/>
+          <Route path='post/:id' element={<PostDetail />} />
+          <Route path='chat/:id' element={<Chat />}/>
         </Route>
       </Route>
     </Routes>
