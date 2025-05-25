@@ -5,13 +5,13 @@ import { getChat } from "../../services/chatServices";
 import { getRoomChat } from "../../services/roomChatSevices";
 import dayjs from "dayjs";
 import "./chat.scss";
+import { useChatSocket, UseChatSocket } from "../../helpers/useChatSocket";
 
 function Chat() {
   const nav = useNavigate()
   const params = useParams();
   const { id } = params; // roomChatId
-  const user_id = JSON.parse(localStorage.getItem("user_id"));
-  const messagesEndRef = useRef(null);
+  const user_id = JSON.parse(localStorage.getItem("user_id"));  
 
   const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState(null);
@@ -23,7 +23,7 @@ function Chat() {
       const user = res.roomChat.users.find(item => item.user_id !== user_id);
       setUser(user);
     } else {
-    nav("/")
+      nav("/")
     }
   };
 
@@ -33,92 +33,24 @@ function Chat() {
       setMessages(res.chats);
     }
   };
-
-  const handleDeleteMessage = (data) => {
-    setMessages((prev) =>
-      prev.map((item) =>
-        item._id === data.id_message
-          ? { ...item, deleted: true }
-          : item
-      )
-    );
-  };
-
-
-  const handleNewMessage = (data) => {
-    setMessages(prev => {
-      const newMessages = [...prev, data];
-      scrollToBottom(); // Chỉ scroll khi có tin nhắn mới
-      return newMessages;
-    });
-  };
-
-  const handleTyping = (data) => {
-    setTypingUser(data.infoUser);
-    scrollToBottom();
-    setTimeout(() => setTypingUser(null), 3000);
-  };
-
   useEffect(() => {
-    if (!id || !user_id) return;
-
-    fetchMessage();
     fetchRoomChat();
+    fetchMessage()
+  }, [])
 
-    const handleConnect = () => {
-      socket.emit("CLIENT_JOIN_CHAT", { roomChatId: id });
-    };
+  const {
+    handleSubmit,
+    handleKeyUp,
+    handleDelete,
+    messagesEndRef
+  } = useChatSocket({
+    socket,
+    roomChatId: id,
+    user_id,
+    setMessages,
+    setTypingUser,
+  });
 
-    if (socket.connected) {
-      handleConnect();
-    } else {
-      socket.once("connect", handleConnect);
-    }
-
-    socket.on("SERVER_RETURN_MESSAGE", handleNewMessage);
-    socket.on("SERVER_RETURN_TYPING", handleTyping);
-    socket.on("SERVER_RETURN_DELETE_MESSAGE", handleDeleteMessage);
-
-    return () => {
-      socket.off("SERVER_RETURN_MESSAGE", handleNewMessage);
-      socket.off("SERVER_RETURN_TYPING", handleTyping);
-      socket.off("SERVER_RETURN_DELETE_MESSAGE", handleDeleteMessage);
-      socket.off("connect", handleConnect);
-    };
-  }, [id, user_id]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const message = e.target.message.value;
-    if (!message) return;
-
-    socket.emit("CLIENT_SEND_MESSAGE", {
-      user_id,
-      roomChatId: id,
-      message,
-    });
-
-    e.target.message.value = "";
-  };
-
-  const handleKeyUp = () => {
-    socket.emit("CLIENT_ON_KEY_UP", {
-      user_id,
-      roomChatId: id,
-    });
-  };
-
-  const handleDelete = async (id_message) => {
-    socket.emit("CLIENT_DELETE_MESSAGE", {
-      user_id,
-      id_message,
-      roomChatId: id,
-    });
-  };
 
   return (
     <div className="container">

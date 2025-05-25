@@ -10,6 +10,7 @@ import PostDetail from './pages/postDetail';
 import { useEffect } from 'react';
 import socket from './sockets/socket';
 import Chat from './pages/chat';
+import ListChat from './pages/chat/listChat';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="user/profile/edit" element={<Edit />} />
           <Route path='post/:id' element={<PostDetail />} />
           <Route path='chat/:id' element={<Chat />}/>
+          <Route path='listchat' element={<ListChat />}/>
         </Route>
       </Route>
     </Routes>

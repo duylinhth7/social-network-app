@@ -26,3 +26,14 @@ export const getRoomChat = async (id) => {
   const data = await response.json();
   return data;
 }
+
+export const getListRoomChat = async () => {
+  const response = await fetch( PATH + `/getlistchat`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+  const data = await response.json();
+  return data;
+}

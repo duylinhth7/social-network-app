@@ -51,6 +51,9 @@ function Header() {
                             {user ?
                                 <>
                                     <ul>
+                                        <li className="header_menu-message me-1">
+                                            <NavLink to="/listchat">Nhắn tin</NavLink>
+                                        </li>
                                         <li className="header_menu-profile me-1">
                                             <NavLink to={`/user/profile/${user._id}`}>
                                                 {user.fullName}
