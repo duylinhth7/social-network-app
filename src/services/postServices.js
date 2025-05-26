@@ -92,15 +92,14 @@ export const getDetailPost = async (id) => {
   return data;
 }
 
-export const postComment = async (id, content) => {
-  const response = await fetch(PATH + `/comment/${id}`, {
-    method: "POST",
+export const deleteComment = async (idPost, idComment) => {
+  const response = await fetch(PATH + `/comment/${idPost}`, {
+    method: "DELETE",
     headers: {
       "Authorization": `Bearer ${token}`,
       "Content-Type": "application/json"
-
-    },
-    body: JSON.stringify({ content })
+    }, 
+    body: JSON.stringify({idComment})
   });
   const data = response.json();
   return data;

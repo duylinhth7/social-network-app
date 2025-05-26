@@ -48,7 +48,7 @@ function ListChat() {
             <div className="list-chat">
                 <div className="title">Đoạn chat</div>
                 <div className="row">
-                    <div className="col-3 list-chat-left">
+                    <div className="col-sm-3 col-12 list-chat-left">
                         {
                             data ? (
                                 <>
@@ -65,7 +65,7 @@ function ListChat() {
                                 </>) : (<></>)
                         }
                     </div>
-                    <div className="col-9 list-chat-right">
+                    <div className="col-sm-9 col-12 list-chat-right">
                         <div className="chat-body">
                             {
                                 messages !== 0 ? (

@@ -3,10 +3,10 @@ import { getAllPost } from "../../services/postServices";
 import { getInfoUser } from "../../services/userServices";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { handleLikeHelper, handleUnLikeHelper } from "../../helpers/postHelper";
 import PostHome from "../../components/postHome";
 import socket from "../../sockets/socket";
-import { message } from "antd";
+import { likeSocket } from "../../helpers/likeSocket";
+
 
 function Home() {
     const nav = useNavigate();
@@ -21,22 +21,16 @@ function Home() {
             setData(0)
         }
     };
+    const { handleLike, handleUnLike } = likeSocket({ socket, setTrigger, trigger, user_id });
     useEffect(() => {
         fetchPost();
     }, [trigger]);
-    const handleClick = () => {
-        socket.emit("chat", {message: "ok"})
-        socket.on("returnchat", (data) => {
-            console.log(data)
-        })
-    }
     return (
         <>
-        <a onClick={handleClick}>jkn</a>
             <div className="post_home">
                 <div className="container">
                     <div className="mt-4">
-                        <PostHome trigger={trigger} setTrigger={setTrigger}/>
+                        <PostHome trigger={trigger} setTrigger={setTrigger} />
                     </div>
                     <div className="row profile-post">
                         {
@@ -69,9 +63,9 @@ function Home() {
                                     <div className="profile-post-button row">
                                         <div className="col-4">
                                             {item.likes.length > 0 ? (<>
-                                                {item.likes.includes(user_id) ? (<button className="liked" onClick={() => handleUnLikeHelper(item._id, trigger, setTrigger)}>{item.likes.length} Thích</button>) :
-                                                    (<button onClick={() => handleLikeHelper(item._id, trigger, setTrigger)}>{item.likes.length} Thích</button>)}
-                                            </>) : (<button onClick={() => handleLikeHelper(item._id, trigger, setTrigger)}>0 Thích</button>)}
+                                                {item.likes.includes(user_id) ? (<button className="liked" onClick={() => handleUnLike(item._id)}>{item.likes.length} Thích</button>) :
+                                                    (<button onClick={() => handleLike(item._id)}>{item.likes.length} Thích</button>)}
+                                            </>) : (<button onClick={() => handleLike(item._id)}>0 Thích</button>)}
                                         </div>
                                         <div className="col-4">
                                             <button onClick={() => nav(`/post/${item._id}`)}>Bình luận ({item.comments.length})</button>

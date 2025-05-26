@@ -22,7 +22,7 @@ function Search() {
 
     return (
         <>
-            <form>
+            <form >
                 <input
                     onKeyUp={handleKeyUp}
                     name="keyword"

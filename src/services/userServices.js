@@ -1,4 +1,5 @@
 const PATH = "https://social-network-be-nt32.onrender.com/api/v1/user";
+
 const token = localStorage.getItem("token")
 
 export const loginServices = async (email, password) => {
@@ -65,6 +66,46 @@ export const searchServices = async (keyword) => {
     headers: {
       "Authorization": `Bearer ${token}`
     }
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+
+export const forgetPasswordServices = async (email) => {
+  const response = await fetch(PATH + "/password/forget", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({email})
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+export const otpPassword = async (email, otp) => {
+  const response = await fetch(PATH + "/password/otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({email, otp})
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+export const resetPassword = async (password, authPassword) => {
+  const response = await fetch(PATH + "/password/reset", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({password, authPassword})
   });
 
   const data = await response.json();

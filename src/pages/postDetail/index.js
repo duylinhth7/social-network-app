@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { getDetailPost } from "../../services/postServices";
+import { deleteComment, getDetailPost } from "../../services/postServices";
 import { useNavigate, useParams } from "react-router-dom";
+import socket from "../../sockets/socket";
 import dayjs from "dayjs";
 import "./postDetail.scss";
 import { SendOutlined } from "@ant-design/icons"
-import { commentHelper, handleLikeHelper, handleUnLikeHelper } from "../../helpers/postHelper";
+import { likeSocket } from "../../helpers/likeSocket";
+import { commentSocket } from "../../helpers/commentSocket";
 function PostDetail() {
     const user_id = JSON.parse(localStorage.getItem("user_id"))
     const nav = useNavigate();
@@ -17,7 +19,19 @@ function PostDetail() {
             setData(res);
         };
         fetchApi();
-    }, [trigger])
+    }, [trigger]);
+    const handleDeleteComment = async (idPost, idComment) => {
+        console.log(idPost, idComment)
+        const res = await deleteComment(idPost, idComment);
+        if(res){
+            console.log(res)
+            if(res.code === 200){
+                setTrigger(!trigger)
+            }
+        }
+    }
+    const { handleLike, handleUnLike } = likeSocket({ socket, setTrigger, trigger, user_id });
+    const {handleSubmit} = commentSocket({socket, setTrigger, trigger, user_id})
     return (
         <>
             {data ? (
@@ -51,14 +65,14 @@ function PostDetail() {
                             <div className="post-detail-button row">
                                 <div className="col-4">
                                     {data.likes.length > 0 ? (<>
-                                        {data.likes.includes(user_id) ? (<button className="liked" onClick={() => handleUnLikeHelper(data._id, trigger, setTrigger)}>{data.likes.length} Thích</button>) :
-                                            (<button onClick={() => handleLikeHelper(data._id, trigger, setTrigger)}>{data.likes.length} Thích</button>)}
-                                    </>) : (<button onClick={() => handleUnLikeHelper(data._id, trigger, setTrigger)}>0 Thích</button>)}
+                                        {data.likes.includes(user_id) ? (<button className="liked" onClick={() => handleUnLike(data._id)}>{data.likes.length} Thích</button>) :
+                                            (<button onClick={() => handleLike(data._id)}>{data.likes.length} Thích</button>)}
+                                    </>) : (<button onClick={() => handleUnLike(data._id)}>0 Thích</button>)}
                                 </div>
                                 <div className="col-4">
                                     <button onClick={() => {
                                         document.querySelector("#comment").focus();
-                                    }}>Bình luận</button>
+                                    }}>Bình luận ({data.comments.length})</button>
                                 </div>
                                 <div className="col-4">
                                     <button>Chia sẻ</button>
@@ -78,13 +92,20 @@ function PostDetail() {
                                                         <div className="fullName">{item.user_id === user_id ? "Bạn" : <>{item.infoUser.fullName}</>}</div>
                                                         <div className="content">{item.content}</div>
                                                     </div>
+                                                    {
+                                                        item.user_id === user_id ? (
+                                                        <>
+                                                        <div className="comment-item-delete" onClick={() => {handleDeleteComment(data._id, item._id)}}><span>Xóa</span></div>
+                                                        </>
+                                                        ) : (<></>)
+                                                    }
                                                 </div>
                                             ))}
                                         </>) :
                                         (<p>Chưa có bình luận nào</p>)}
                                 </div>
                                 <div className="form-comment">
-                                    <form onSubmit={(e) => {commentHelper(e, data._id, trigger, setTrigger)}}>
+                                    <form onSubmit={(e) => {handleSubmit(e, data._id)}}>
                                         <input type="text" id="comment" placeholder="Hãy bình luận gì đó..." />
                                         <button type="submit"> <SendOutlined /> Bình luận</button>
                                     </form>

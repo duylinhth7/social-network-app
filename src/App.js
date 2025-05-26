@@ -11,6 +11,9 @@ import { useEffect } from 'react';
 import socket from './sockets/socket';
 import Chat from './pages/chat';
 import ListChat from './pages/chat/listChat';
+import ForgetPassword from './pages/forgetPassword/forget';
+import Otp from './pages/forgetPassword/otp';
+import ResetPassword from './pages/forgetPassword/resetPassword';
 
 
 function App() {
@@ -27,7 +30,9 @@ function App() {
         {/* Public routes */}
         <Route path="user/login" element={<Login />} />
         <Route path="user/register" element={<Register />} />
-
+        <Route path='user/forget-password' element={<ForgetPassword />}/>
+        <Route path='user/otp/:email' element={<Otp />}/>
+        <Route path='user/resetpassword' element={<ResetPassword />}/>
         {/* Protected routes */}
         <Route element={<PrivateRoute />}>
           <Route path="" element={<Home />} />

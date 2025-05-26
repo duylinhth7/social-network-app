@@ -16,9 +16,9 @@ function Header() {
             setUser(res.user);
         }
     }
-        useEffect(() => {
-            fetchApi()
-        }, []);
+    useEffect(() => {
+        fetchApi()
+    }, []);
     const [api, contextHolder] = notification.useNotification();
     const openNotificationWithIcon = (type, description) => {
         api[type]({
@@ -41,13 +41,10 @@ function Header() {
             <div className='header'>
                 <div className='container'>
                     <div className='row'>
-                        <div className='header_logo col-3'>
-                            <span onClick={()=> nav("/")}>LOGO</span>
+                        <div className='header_logo col-md-3 col-6'>
+                            <span onClick={() => nav("/")}>SOCIAL NETWORK</span>
                         </div>
-                        <div className='header_search col-5'>
-                            <Search />
-                        </div>
-                        <div className='header_menu col-4'>
+                        <div className='header_menu col-md-4 col-6'>
                             {user ?
                                 <>
                                     <ul>
@@ -74,6 +71,9 @@ function Header() {
                                         </li>
                                     </ul>
                                 </>}
+                        </div>
+                        <div className='header_search col-md-5 col-12'>
+                            <Search />
                         </div>
                     </div>
                 </div>

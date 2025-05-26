@@ -69,7 +69,7 @@ function Login() {
                     </div>
 
                     <div className="form-extra">
-                        <a href="/forgot-password" className="forgot-password">
+                        <a href="/user/forget-password" className="forgot-password">
                             Quên mật khẩu?
                         </a>
                     </div>

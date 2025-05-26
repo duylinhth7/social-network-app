@@ -6,10 +6,10 @@ import { getInfoUser } from "../../services/userServices";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { follow, unfollow } from "../../services/followServices";
 import { Button, Dropdown, Menu, Modal } from "antd";
-import { handleLikeHelper, handleUnLikeHelper } from "../../helpers/postHelper";
 import PostOptions from "../../helpers/postOptions";
 import { createRoomChatServices } from "../../services/roomChatSevices";
 import socket from "../../sockets/socket";
+import { likeSocket } from "../../helpers/likeSocket";
 
 
 function Profile() {
@@ -33,6 +33,7 @@ function Profile() {
         const res = await getPostUser(params.id, token);
         setPosts((res.posts).reverse());
     }
+    const { handleLike, handleUnLike } = likeSocket({ socket, setTrigger, trigger, user_id });
     useEffect(() => {
         fetchPost();
         fetchUser();
@@ -127,9 +128,13 @@ function Profile() {
                                     }
                                 </>)}
                         </div>
-                        <div className="col-4">
-                            <NavLink onClick={() => handleClick()}>Nhắn tin</NavLink>
-                        </div>
+                        {user._id !== user_id ? (
+                            <>
+                                <div className="col-4">
+                                    <NavLink onClick={() => handleClick()}>Nhắn tin</NavLink>
+                                </div>
+                            </>
+                        ) : (<></>)}
                         <div className="col-4">
                             <span>{posts.length > 0 ? posts.length : 0}</span> bài đăng
                         </div>
@@ -155,9 +160,9 @@ function Profile() {
                                     posts.map((item, index) => (
                                         <div className="profile-post-item" key={index}>
                                             <div className="col-12 profile-post-head">
-                                                <img width="50px" src={user.avatar ? user.avatar 
-                                                :
-                                                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"} alt="Avatar người dùng" />
+                                                <img width="50px" src={user.avatar ? user.avatar
+                                                    :
+                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"} alt="Avatar người dùng" />
                                                 <div>
                                                     <b>{user.fullName}</b>
                                                     <div>{dayjs(item.createdAt).format("DD/MM/YYYY HH:mm")}</div>
@@ -178,9 +183,9 @@ function Profile() {
                                             <div className="profile-post-button row">
                                                 <div className="col-4">
                                                     {item.likes.length > 0 ? (<>
-                                                        {item.likes.includes(user_id) ? (<button className="liked" onClick={() => { handleUnLikeHelper(item._id, trigger, setTrigger) }}>{item.likes.length} Thích</button>) :
-                                                            (<button onClick={() => { handleLikeHelper(item._id, trigger, setTrigger) }}>{item.likes.length} Thích</button>)}
-                                                    </>) : (<button onClick={() => { handleLikeHelper(item._id, trigger, setTrigger) }} >0 Thích</button>)}
+                                                        {item.likes.includes(user_id) ? (<button className="liked" onClick={() => { handleUnLike(item._id) }}>{item.likes.length} Thích</button>) :
+                                                            (<button onClick={() => { handleLike(item._id) }}>{item.likes.length} Thích</button>)}
+                                                    </>) : (<button onClick={() => { handleLike(item._id) }} >0 Thích</button>)}
                                                 </div>
                                                 <div className="col-4">
                                                     <button onClick={() => nav(`/post/${item._id}`)}>Bình luận</button>
