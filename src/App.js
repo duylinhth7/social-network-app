@@ -32,7 +32,7 @@ function App() {
         <Route path="user/register" element={<Register />} />
         <Route path='user/forget-password' element={<ForgetPassword />}/>
         <Route path='user/otp/:email' element={<Otp />}/>
-        <Route path='user/resetpassword' element={<ResetPassword />}/>
+        <Route path='user/resetpassword/:passwordResetToken' element={<ResetPassword />}/>
         {/* Protected routes */}
         <Route element={<PrivateRoute />}>
           <Route path="" element={<Home />} />

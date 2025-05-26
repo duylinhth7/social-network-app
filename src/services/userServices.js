@@ -8,7 +8,6 @@ export const loginServices = async (email, password) => {
     headers: {
       "Content-Type": "application/json"
     },
-    credentials: "include",
     body: JSON.stringify({ email, password })
   });
   const data = await response.json();
@@ -99,13 +98,13 @@ export const otpPassword = async (email, otp) => {
   return data;
 }
 
-export const resetPassword = async (password, authPassword) => {
+export const resetPassword = async (password, authPassword, passwordResetToken) => {
   const response = await fetch(PATH + "/password/reset", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({password, authPassword})
+    body: JSON.stringify({password, authPassword, passwordResetToken})
   });
 
   const data = await response.json();

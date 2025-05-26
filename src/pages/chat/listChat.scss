@@ -1,5 +1,6 @@
 .list-chat{
     padding: 10px 80px;
+    position: relative;
     .title{
         font-weight: 600;
         font-size: 30px;
@@ -39,31 +40,48 @@
         background-color: #DDDDDD;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         border-radius: 0 5px 5px 0;
-        form{
+  form{
+        display: flex;
+        padding: 0 20px;
         margin-top: 30px;
         text-align: center;
+        justify-content: space-between;
         input{
-            width: 80%;
-            padding: 3px 10px;
+            width: 75%;
             border-radius: 5px;
             border: 0;
             outline: none;
         }
+        .open-emoji{
+          cursor: pointer;
+          width: 35px;
+          height: 35px;
+          border-radius: 5px;
+          text-align: center;
+          font-size: 20px;
+          color:  #000;
+          background-color: #fff;
+        }
         button{
-            width: 15%;
+            width: 20%;
             border: 0;
             padding: 3px;
-            margin-left: 5px;
+            // margin-left: 5px;
             border-radius: 5px;
             font-weight: 600;
             color: #fff;
-        }   
-
+        }
     }
     }
     .not-chat{
         font-size: 30px;
         text-align: center;
         font-weight: 600;
+    }
+        .emoji{
+        z-index: 999;
+        bottom: 60px;
+        right: 110px;
+        position: absolute;
     }
 }

@@ -23,7 +23,7 @@ function Otp() {
         const otp = e.target[1].value;
         const res = await otpPassword(email, otp);
         if(res.code === 200){
-        nav("/user/resetpassword")
+        nav(`/user/resetpassword/${res.passwordResetToken}`)
         } else {
             openNotificationWithIcon("error", res.message)
         }

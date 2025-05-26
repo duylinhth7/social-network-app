@@ -2,6 +2,7 @@
     background-color: #ddd;
     padding: 10px 5px;
     border-radius: 10px;
+    position: relative;
     &-head{
         padding: 5px 10px;
         border-bottom: 1px solid #000;
@@ -85,20 +86,32 @@
         }
     }
     form{
+        display: flex;
+        padding: 0 20px;
         margin-top: 30px;
         text-align: center;
+        justify-content: space-between;
         input{
-            width: 80%;
-            padding: 3px 10px;
+            width: 75%;
             border-radius: 5px;
             border: 0;
             outline: none;
         }
+        .open-emoji{
+          cursor: pointer;
+          width: 35px;
+          height: 35px;
+          border-radius: 5px;
+          text-align: center;
+          font-size: 20px;
+          color:  #000;
+          background-color: #fff;
+        }
         button{
-            width: 15%;
+            width: 20%;
             border: 0;
             padding: 3px;
-            margin-left: 5px;
+            // margin-left: 5px;
             border-radius: 5px;
             font-weight: 600;
             color: #fff;
@@ -159,6 +172,12 @@
   font-style: italic;
   color: #999;
 }
+      .emoji{
+        z-index: 999;
+        bottom: 45px;
+        right: 23px;
+        position: absolute;
+    }
 
 
 }

@@ -6,14 +6,18 @@ import { getRoomChat } from "../../services/roomChatSevices";
 import dayjs from "dayjs";
 import "./chat.scss";
 import { useChatSocket, UseChatSocket } from "../../helpers/useChatSocket";
+import EmojiPicker from 'emoji-picker-react';
+import { SmileOutlined } from "@ant-design/icons"
+
 
 function Chat() {
   const nav = useNavigate()
   const params = useParams();
   const { id } = params; // roomChatId
-  const user_id = JSON.parse(localStorage.getItem("user_id"));  
+  const user_id = JSON.parse(localStorage.getItem("user_id"));
 
   const [messages, setMessages] = useState([]);
+  const [contentChat, setContentChat] = useState("")
   const [typingUser, setTypingUser] = useState(null);
   const [user, setUser] = useState(null);
 
@@ -37,6 +41,7 @@ function Chat() {
     fetchRoomChat();
     fetchMessage()
   }, [])
+  const [emoji, setEmoji] = useState(false);
 
   const {
     handleSubmit,
@@ -49,7 +54,14 @@ function Chat() {
     user_id,
     setMessages,
     setTypingUser,
+    setContentChat,
+    setEmoji
+
   });
+  const onEmoji = (e) => {
+    handleKeyUp();
+    setContentChat(item => item + e.emoji)
+  }
 
 
   return (
@@ -118,9 +130,19 @@ function Chat() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <input name="message" placeholder="Nhập tin nhắn..." type="text" onKeyUp={handleKeyUp} />
+          <input name="message" placeholder="Nhập tin nhắn..."
+            type="text"
+            value={contentChat}
+            onChange={(e) => setContentChat(e.target.value)}
+            onKeyUp={handleKeyUp} />
+          <div className="open-emoji" onClick={() => setEmoji(!emoji)}><SmileOutlined /></div>
           <button type="submit">Send</button>
         </form>
+        {emoji && (
+          <div className="emoji">
+            <span><EmojiPicker open={emoji} onEmojiClick={onEmoji} width={300} height={400} /></span>
+          </div>
+        )}
       </div>
     </div>
   );

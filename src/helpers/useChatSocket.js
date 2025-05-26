@@ -5,7 +5,9 @@ export const useChatSocket = ({
   roomChatId,
   user_id,
   setMessages,
-  setTypingUser
+  setTypingUser,
+  setContentChat,
+  setEmoji  
 }) => {
   const messagesEndRef = useRef(null);
 
@@ -63,6 +65,8 @@ export const useChatSocket = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = e.target.message.value;
+    setContentChat("");
+    setEmoji(false)
     if (!message) return;
 
     socket.emit("CLIENT_SEND_MESSAGE", {
@@ -71,7 +75,7 @@ export const useChatSocket = ({
       message,
     });
 
-    e.target.message.value = "";
+    
   };
 
   const handleKeyUp = () => {

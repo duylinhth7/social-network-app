@@ -5,12 +5,14 @@ import { getChat } from "../../services/chatServices";
 import dayjs from "dayjs";
 import { useChatSocket } from "../../helpers/useChatSocket";
 import socket from "../../sockets/socket";
-import { MessageOutlined } from "@ant-design/icons"
+import { MessageOutlined, SmileOutlined } from "@ant-design/icons"
+import EmojiPicker from "emoji-picker-react";
 
 function ListChat() {
     const [active, setActive] = useState(null);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
     const [data, setData] = useState(null);
+    const [contentChat, setContentChat] = useState("")
     const [roomChatId, setRoomChatId] = useState(null);
     const [typingUser, setTypingUser] = useState(null)
     const [messages, setMessages] = useState(0);
@@ -30,6 +32,7 @@ function ListChat() {
     useEffect(() => {
         fetchApi()
     }, [])
+    const [emoji, setEmoji] = useState(false);
 
     const {
         handleSubmit,
@@ -42,7 +45,14 @@ function ListChat() {
         user_id,
         setMessages,
         setTypingUser,
+        setContentChat,
+        setEmoji
     });
+
+    const onEmoji = (e) => {
+        handleKeyUp();
+        setContentChat(item => item + e.emoji)
+    }
     return (
         <>
             <div className="list-chat">
@@ -124,10 +134,17 @@ function ListChat() {
                             )}
                             <div ref={messagesEndRef}></div>
                         </div>
-                        <form style={{display: messages === 0 ? ("none") : ""}} onSubmit={handleSubmit}>
-                            <input name="message" placeholder="Nhập tin nhắn..." type="text" onKeyUp={handleKeyUp} />
+                        <form style={{ display: messages === 0 ? ("none") : "" }} onSubmit={handleSubmit}>
+                            <input name="message" placeholder="Nhập tin nhắn..." value={contentChat}
+                                onChange={(e) => setContentChat(e.target.value)} type="text" onKeyUp={handleKeyUp} />
+                            <div className="open-emoji" onClick={() => setEmoji(!emoji)}><SmileOutlined /></div>
                             <button type="submit">Send</button>
                         </form>
+                        {emoji && (
+                            <div className="emoji">
+                                <span><EmojiPicker open={emoji} onEmojiClick={onEmoji} width={300} height={400} /></span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

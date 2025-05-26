@@ -7,6 +7,7 @@ import Search from "../search";
 
 function Header() {
     const nav = useNavigate()
+    const token = localStorage.getItem("token")
     const [user, setUser] = useState(null);
     const [trigger, setTrigger] = useState(false);
     const user_id = JSON.parse(localStorage.getItem("user_id"));
@@ -45,7 +46,7 @@ function Header() {
                             <span onClick={() => nav("/")}>SOCIAL NETWORK</span>
                         </div>
                         <div className='header_menu col-md-4 col-6'>
-                            {user ?
+                            {user && token ?
                                 <>
                                     <ul>
                                         <li className="header_menu-message me-1">

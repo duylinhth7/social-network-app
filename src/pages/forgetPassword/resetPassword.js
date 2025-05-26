@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { resetPassword } from "../../services/userServices";
 import "./forgetPassword.scss";
 import { notification } from "antd";
@@ -14,12 +14,13 @@ function ResetPassword() {
         });
     };
     const nav = useNavigate();
+    const params = useParams();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const password = e.target[0].value;
         const authPassword = e.target[1].value;
-        const res = await resetPassword(password, authPassword)
+        const res = await resetPassword(password, authPassword, params.passwordResetToken)
         if (res.code === 200) {
             nav("/user/login");
         } else {

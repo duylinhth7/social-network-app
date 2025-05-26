@@ -16,7 +16,7 @@ function Register() {
         }
         const data = await registerServices(record);
         if(data.code == 200){
-            localStorage.setItem("token", data.user.token);
+            localStorage.setItem("token", data.tokenJWT);
             nav("/")
         }
     }

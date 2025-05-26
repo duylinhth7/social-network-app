@@ -14,7 +14,7 @@ function Login() {
         });
     };
     const handleLoginSuccess = (res) => {
-        const token = res.user.token;
+        const token = res.tokenJWT;
         const user = res.user;
         localStorage.setItem("token", token);
         localStorage.setItem("user_id", JSON.stringify(user._id));
