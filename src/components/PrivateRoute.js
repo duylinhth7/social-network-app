@@ -11,7 +11,7 @@ const PrivateRoute = () => {
     const fetchApi = async () => {
         try {
             const res = await getInfoUser(user_id, token);
-            if (res.code === 200) {
+            if(res.code === 200){
                 setUser(res.user);
             }
         } catch (error) {
@@ -25,11 +25,10 @@ const PrivateRoute = () => {
     useEffect(() => {
         fetchApi();
     }, []);
-    // console.log(props)
 
     if (loading) return <div>Đang kiểm tra đăng nhập...</div>;
 
-    return token ? <Outlet /> : <Navigate to="/user/login" />;
+    return user ? <Outlet /> : <Navigate to="/user/login" />;
 };
 
 export default PrivateRoute;

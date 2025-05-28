@@ -138,14 +138,15 @@
     }
 
     .profile-post-images {
+      max-width: 600px;
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 10px;
 
       img {
-        width: 200px;
-        height: 200px;
+        width: 100%;
+        height: auto;
         object-fit: cover;
         border-radius: 8px;
         border: 1px solid #eee;

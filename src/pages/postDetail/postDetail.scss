@@ -54,11 +54,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    max-width: 600px;
     margin-bottom: 12px;
 
     img {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: auto;
       border-radius: 8px;
       object-fit: cover;
       border: 1px solid #eee;
@@ -71,8 +72,8 @@
   }
 
   &-button {
-    display: flex;
-    justify-content: space-around;
+    // display: flex;
+    // justify-content: space-around;
     padding-top: 10px;
     border-top: 1px solid #eee;
 
@@ -101,12 +102,14 @@
     text-align: center;
     .form-comment{
       input{
-        width: 80%;
+        width: 75%;
         border: 2px solid #ddd;
         border-radius: 10px;
+        outline: none;
         padding: 10px 5px;
       }
       button{
+        width: 10%;
         border: 0;
         margin-left: 10px;
         background: #007bff;
@@ -157,28 +160,5 @@
 @media (max-width: 768px) {
   .post-detail {
     padding: 16px;
-
-    &-images {
-      justify-content: center;
-
-      img {
-        width: 80px;
-        height: 80px;
-      }
-    }
-
-    &-button {
-      flex-direction: column;
-      gap: 8px;
-
-      .col-4 {
-        width: 100%;
-        padding: 0;
-
-        button {
-          width: 100%;
-        }
-      }
-    }
   }
 }

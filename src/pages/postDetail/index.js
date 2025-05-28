@@ -23,15 +23,15 @@ function PostDetail() {
     const handleDeleteComment = async (idPost, idComment) => {
         console.log(idPost, idComment)
         const res = await deleteComment(idPost, idComment);
-        if(res){
+        if (res) {
             console.log(res)
-            if(res.code === 200){
+            if (res.code === 200) {
                 setTrigger(!trigger)
             }
         }
     }
     const { handleLike, handleUnLike } = likeSocket({ socket, setTrigger, trigger, user_id });
-    const {handleSubmit} = commentSocket({socket, setTrigger, trigger, user_id})
+    const { handleSubmit } = commentSocket({ socket, setTrigger, trigger, user_id })
     return (
         <>
             {data ? (
@@ -67,7 +67,7 @@ function PostDetail() {
                                     {data.likes.length > 0 ? (<>
                                         {data.likes.includes(user_id) ? (<button className="liked" onClick={() => handleUnLike(data._id)}>{data.likes.length} Thích</button>) :
                                             (<button onClick={() => handleLike(data._id)}>{data.likes.length} Thích</button>)}
-                                    </>) : (<button onClick={() => handleUnLike(data._id)}>0 Thích</button>)}
+                                    </>) : (<button onClick={() => handleLike(data._id)}>0 Thích</button>)}
                                 </div>
                                 <div className="col-4">
                                     <button onClick={() => {
@@ -83,10 +83,10 @@ function PostDetail() {
                                     {data.comments.length > 0 ? (
                                         <>
                                             {data.comments.map((item, index) => (
-                                                <div className="comment-item">
+                                                <div className="comment-item" key={index}>
                                                     <div className="comment-item_avatar" onClick={() => nav(`/user/profile/${item.user_id}`)}>{item.infoUser.avatar ?
-                                                      (<><img src={item.infoUser.avatar}/></>) : 
-                                                      (<><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"/></>)}
+                                                        (<><img src={item.infoUser.avatar} /></>) :
+                                                        (<><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" /></>)}
                                                     </div>
                                                     <div className="comment-item_content">
                                                         <div className="fullName">{item.user_id === user_id ? "Bạn" : <>{item.infoUser.fullName}</>}</div>
@@ -94,9 +94,9 @@ function PostDetail() {
                                                     </div>
                                                     {
                                                         item.user_id === user_id ? (
-                                                        <>
-                                                        <div className="comment-item-delete" onClick={() => {handleDeleteComment(data._id, item._id)}}><span>Xóa</span></div>
-                                                        </>
+                                                            <>
+                                                                <div className="comment-item-delete" onClick={() => { handleDeleteComment(data._id, item._id) }}><span>Xóa</span></div>
+                                                            </>
                                                         ) : (<></>)
                                                     }
                                                 </div>
@@ -105,9 +105,9 @@ function PostDetail() {
                                         (<p>Chưa có bình luận nào</p>)}
                                 </div>
                                 <div className="form-comment">
-                                    <form onSubmit={(e) => {handleSubmit(e, data._id)}}>
+                                    <form onSubmit={(e) => { handleSubmit(e, data._id) }}>
                                         <input type="text" id="comment" placeholder="Hãy bình luận gì đó..." />
-                                        <button type="submit"> <SendOutlined /> Bình luận</button>
+                                        <button type="submit"> <SendOutlined /></button>
                                     </form>
                                 </div>
                             </div>

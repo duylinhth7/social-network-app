@@ -56,7 +56,7 @@ function Home() {
                                     </div>
                                     <div className="col-12 profile-post-images">
                                         {item.images.length > 0 ? item.images.map((item, index) => (
-                                            <img src={item} />
+                                            <img src={item}/>
                                         )) : (<>
                                         </>)}
                                     </div>
