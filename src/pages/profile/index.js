@@ -10,6 +10,7 @@ import PostOptions from "../../helpers/postOptions";
 import { createRoomChatServices } from "../../services/roomChatSevices";
 import socket from "../../sockets/socket";
 import { likeSocket } from "../../helpers/likeSocket";
+import  { GetFollower, GetFollowing } from "./getFollow";
 
 
 function Profile() {
@@ -50,6 +51,11 @@ function Profile() {
 
     }
     //end follow
+
+    //set show follow
+    const [showFollowingModal, setShowFollowingModal] = useState(false);
+    const [showFollowerModal, setShowFollowerModal] = useState(false)
+    //end set show follow
 
     //Model tạo bài viết mới
     const [open, setOpen] = useState(false);
@@ -108,12 +114,13 @@ function Profile() {
     if (!user) {
         return <div>Vui lòng đăng nhập để xem trang cá nhân</div>;
     };
+
     return (
         <div className="profile">
             <div className="container">
                 <div className="row profile-info">
                     <div className="col-4 profile-avatar">
-                        <img src={user.avatar ? user.avatar : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"} alt="Avatar người dùng" />
+                        <img src={user.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"} alt="Avatar người dùng" />
                     </div>
                     <div className="col-8 row">
                         <div className="col-6">{user.fullName}</div>
@@ -138,12 +145,14 @@ function Profile() {
                         <div className="col-4">
                             <span>{posts.length > 0 ? posts.length : 0}</span> bài đăng
                         </div>
-                        <div className="col-4">
+                        <div className="col-4" onClick={() => setShowFollowingModal(true)}>
                             <span>{user.following.length} đang theo dõi</span>
                         </div>
-                        <div className="col-4">
+                        <GetFollowing id={params.id} open={showFollowingModal} onClose={() => setShowFollowingModal(false)}/>
+                        <div className="col-4" onClick={() => setShowFollowerModal(true)}>
                             <span>{user.followews.length} người theo dõi</span>
                         </div>
+                        <GetFollower id={params.id} open={showFollowerModal} onClose={() => setShowFollowerModal(false)}/>
 
                     </div>
                 </div>
@@ -160,9 +169,7 @@ function Profile() {
                                     posts.map((item, index) => (
                                         <div className="profile-post-item" key={index}>
                                             <div className="col-12 profile-post-head">
-                                                <img width="50px" src={user.avatar ? user.avatar
-                                                    :
-                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"} alt="Avatar người dùng" />
+                                                <img width="50px" src={user.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"} alt="Avatar người dùng" />
                                                 <div>
                                                     <b>{user.fullName}</b>
                                                     <div>{dayjs(item.createdAt).format("DD/MM/YYYY HH:mm")}</div>

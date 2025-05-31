@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { loginServices } from "../../services/userServices";
 import { notification } from "antd"
 import "./login.scss";
+import { useState } from "react";
 
 function Login() {
     const nav = useNavigate();
@@ -50,6 +51,7 @@ function Login() {
                         <label htmlFor="email">Email:</label>
                         <input
                             type="email"
+                            value="hoanglinhdz2k4@gmail.com"
                             id="email"
                             name="email"
                             placeholder="Nhập email"
@@ -61,6 +63,7 @@ function Login() {
                         <label htmlFor="password">Mật khẩu:</label>
                         <input
                             type="password"
+                            value="000"
                             id="password"
                             name="password"
                             placeholder="Nhập mật khẩu"

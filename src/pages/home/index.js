@@ -36,9 +36,8 @@ function Home() {
                         {
                             data ? (data.map((item, index) => (
                                 <div className="profile-post-item" key={index}>
-                                    <div className="col-12 profile-post-head" onClick={() => nav(`/post/${item._id}`)}>
-                                        <img width="50px" src={item.infoUser.avatar ? item.infoUser.avatar :
-                                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"}
+                                    <div className="col-12 profile-post-head">
+                                        <img width="50px" src={item.infoUser.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"}
                                             alt="Avatar người dùng"
                                             style={{ cursor: "pointer" }}
                                             onClick={() => { nav(`/user/profile/${item.user_id}`) }}
@@ -51,7 +50,7 @@ function Home() {
                                             {/* <div className="profile-post-option"><PostOptions postId={item._id} onDeletePost={handleDeletePost} /></div> */}
                                         </>) : (<></>)}
                                     </div>
-                                    <div className="col-12 profile-post-content">
+                                    <div onClick={() => nav(`/post/${item._id}`)} className="col-12 profile-post-content">
                                         {item.content}
                                     </div>
                                     <div className="col-12 profile-post-images">

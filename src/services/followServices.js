@@ -27,3 +27,25 @@ export const follow = async (id) => {
   const data = await response.json();
   return data;
 };
+
+export const getFollowingServices = async (id) => {
+  const response = await fetch(PATH + `/following/${id}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+  const data = await response.json();
+  return data
+}
+
+export const getFollowerServices = async (id) => {
+  const response = await fetch(PATH + `/follower/${id}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+  const data = await response.json();
+  return data
+}
