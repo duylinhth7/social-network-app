@@ -7,6 +7,7 @@ import { useChatSocket } from "../../helpers/useChatSocket";
 import socket from "../../sockets/socket";
 import { MessageOutlined, SmileOutlined } from "@ant-design/icons"
 import EmojiPicker from "emoji-picker-react";
+import { getInfoUser } from "../../services/userServices";
 
 function ListChat() {
     const [active, setActive] = useState(null);
@@ -16,6 +17,7 @@ function ListChat() {
     const [roomChatId, setRoomChatId] = useState(null);
     const [typingUser, setTypingUser] = useState(null)
     const [messages, setMessages] = useState(0);
+    const [user, setUser] = useState(null);
     const fetchApi = async () => {
         const res = await getListRoomChat();
         if (res.code === 200) {
@@ -27,6 +29,9 @@ function ListChat() {
         const res = await getChat(id);
         if (res.code === 200) {
             setMessages(res.chats);
+            const resRoom = await getRoomChat(id);
+            const otherUser = resRoom.roomChat.users.find(item => item.user_id !== user_id);
+            setUser(otherUser)
         }
     }
     useEffect(() => {
@@ -78,7 +83,7 @@ function ListChat() {
                     <div className="col-sm-9 col-12 list-chat-right">
                         <div className="chat-body">
                             {
-                                messages !== 0 ? (
+                                messages !== 0  && user ? (
                                     <>
                                         {messages.map((item) => (
                                             <div key={item._id} className={item.user_id === user_id ? "chat-body-item you" : "chat-body-item"}>
@@ -86,7 +91,7 @@ function ListChat() {
                                                     {item.user_id !== user_id && (
                                                         <div className="avatar">
                                                             <img
-                                                                src={item.infoUser.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"}
+                                                                src={user.infoUser.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"}
                                                                 alt="avatar"
                                                             />
                                                         </div>
@@ -94,7 +99,7 @@ function ListChat() {
                                                 </div>
                                                 <div className="chat-body-message">
                                                     <div className="name">
-                                                        <span>{item.user_id === user_id ? "Bạn" : item.infoUser.fullName}</span>
+                                                        <span>{item.user_id === user_id ? "Bạn" : user.infoUser.fullName}</span>
                                                     </div>
                                                     <div>
                                                         <span className={`message ${item.deleted ? "deleted" : ""}`}>{item.deleted ? ("Tin nhắn đã bị xóa") : (item.message)}</span>

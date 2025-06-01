@@ -33,6 +33,7 @@ function Chat() {
 
   const fetchMessage = async () => {
     const res = await getChat(id);
+    console.log(res)
     if (res.code === 200) {
       setMessages(res.chats);
     }
@@ -82,13 +83,14 @@ function Chat() {
         )}
 
         <div className="chat-body">
-          {messages.map((item) => (
+          {
+            messages && user ? (<>          {messages.map((item) => (
             <div key={item._id} className={item.user_id === user_id ? "chat-body-item you" : "chat-body-item"}>
               <div className="chat-body-info">
                 {item.user_id !== user_id && (
                   <div className="avatar">
                     <img
-                      src={item.infoUser.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"}
+                      src={user.infoUser.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"}
                       alt="avatar"
                     />
                   </div>
@@ -96,7 +98,7 @@ function Chat() {
               </div>
               <div className="chat-body-message">
                 <div className="name">
-                  <span>{item.user_id === user_id ? "Bạn" : item.infoUser.fullName}</span>
+                  <span>{item.user_id === user_id ? "Bạn" : user.infoUser.fullName}</span>
                 </div>
                 <div>
                   <span className={`message ${item.deleted ? "deleted" : ""}`}>{item.deleted ? ("Tin nhắn đã bị xóa") : (item.message)}</span>
@@ -109,7 +111,8 @@ function Chat() {
                 </div>
               </div>
             </div>
-          ))}
+          ))}</>) : ""
+          }
 
           {typingUser && (
             <div className="chat-typing">
