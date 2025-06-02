@@ -1,0 +1,25 @@
+.notfound-container {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.notfound-heading {
+  font-size: 48px;
+  color: #333;
+}
+
+.notfound-text {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.notfound-link {
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

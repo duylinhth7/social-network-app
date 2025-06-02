@@ -14,6 +14,7 @@ import ListChat from './pages/chat/listChat';
 import ForgetPassword from './pages/forgetPassword/forget';
 import Otp from './pages/forgetPassword/otp';
 import ResetPassword from './pages/forgetPassword/resetPassword';
+import NotFoundPage from './pages/notFoundPage';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path='chat/:id' element={<Chat />}/>
           <Route path='listchat' element={<ListChat />}/>
         </Route>
+        <Route path='*' element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
